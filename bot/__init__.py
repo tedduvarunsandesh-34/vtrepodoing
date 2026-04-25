@@ -875,8 +875,7 @@ if not aria2_options:
 else:
     pass
 
-qb_client = None
-qbit_options = {}
+qb_client = get_client()
 if not qbit_options:
     qbit_options = dict(qb_client.app_preferences())
     del qbit_options['listen_port']
