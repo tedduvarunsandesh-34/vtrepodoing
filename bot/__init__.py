@@ -106,6 +106,16 @@ qbit_options = {}
 var_list = {}
 excluded_extensions = []
 nzb_options = {}
+task_dict_lock = Lock()
+queue_dict_lock = Lock()
+qb_listener_lock = Lock()
+nzb_listener_lock = Lock()
+jd_listener_lock = Lock()
+cpu_eater_lock = Lock()
+same_directory_lock = Lock()
+bot_lock = Lock()
+smart_lock = Lock()
+task_check_lock = Lock()
 BOT_TOKEN = environ.get('BOT_TOKEN', '')
 if len(BOT_TOKEN) == 0:
     log_error("BOT_TOKEN variable is missing! Exiting now")
