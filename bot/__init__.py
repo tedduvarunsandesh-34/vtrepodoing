@@ -879,20 +879,31 @@ qb_client = get_client()
 
 if qb_client is None:
     log_error("qBittorrent client not initialized!")
+    qbit_options = {}
 else:
-    if not qbit_options:
-        qbit_options = dict(qb_client.app_preferences())
-        if 'listen_port' in qbit_options:
-            del qbit_options['listen_port']
-        for k in list(qbit_options.keys()):
-            if k.startswith('rss'):
-                del qbit_options[k]
-    else:
-        qb_opt = {**qbit_options}
-        for k, v in list(qb_opt.items()):
-            if v in ["", "*"]:
-                del qb_opt[k]
-        qb_client.app_set_preferences(qb_opt)
+    try:
+        if not qbit_options:
+            qbit_options = dict(qb_client.app_preferences())
+
+            if 'listen_port' in qbit_options:
+                del qbit_options['listen_port']
+
+            for k in list(qbit_options.keys()):
+                if k.startswith('rss'):
+                    del qbit_options[k]
+
+        else:
+            qb_opt = {**qbit_options}
+            for k, v in list(qb_opt.items()):
+                if v in ["", "*"]:
+                    del qb_opt[k]
+
+            qb_client.app_set_preferences(qb_opt)
+
+    except Exception as e:
+        log_error(f"qBittorrent connection failed: {e}")
+        qb_client = None
+        qbit_options = {}
 
 log_info("Creating client from BOT_TOKEN")
 bot = wztgClient('bot', TELEGRAM_API, TELEGRAM_HASH, bot_token=BOT_TOKEN, workers=1000, in_memory=True,
