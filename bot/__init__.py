@@ -93,6 +93,10 @@ sudo_users = set()
 
 __all__ = ["auth_chats", "sudo_users"]
 
+drives_ids = []
+drives_names = []
+index_urls = []
+
 BOT_TOKEN = environ.get('BOT_TOKEN', '')
 if len(BOT_TOKEN) == 0:
     log_error("BOT_TOKEN variable is missing! Exiting now")
