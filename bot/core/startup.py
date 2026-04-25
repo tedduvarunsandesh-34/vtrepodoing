@@ -2,6 +2,7 @@ from asyncio import create_subprocess_exec, create_subprocess_shell, sleep
 from importlib import import_module
 from os import environ, getenv, path as ospath
 
+from bot import auth_chats
 from aiofiles import open as aiopen
 from aiofiles.os import makedirs, remove, path as aiopath
 from aioshutil import rmtree
