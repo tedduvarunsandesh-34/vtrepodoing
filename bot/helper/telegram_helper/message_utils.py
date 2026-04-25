@@ -1,6 +1,9 @@
 from asyncio import sleep, gather
 from re import match as re_match
 from time import time
+from ..ext_utils.exceptions import TgLinkException
+from ...core.tg_client import TgClient
+from ...core.config_manager import Config
 
 from pyrogram.types import Message
 from pyrogram.enums import ParseMode
@@ -185,6 +188,77 @@ async def delete_message(*args):
     for result in results:
         if isinstance(result, Exception):
             LOGGER.error(result)
+
+# --- AUTO DELETE ---
+async def auto_delete_message(*args, stime=90):
+    await sleep(stime)
+    await delete_message(*args)
+
+
+async def delete_links(message):
+    if Config.DELETE_LINKS:
+        await delete_message(message, message.reply_to_message)
+
+
+# --- FORCE SUB ---
+async def forcesub(message, channel_ids):
+    join_btns = []
+    text = ""
+
+    for ch in channel_ids.split():
+        try:
+            chat = await TgClient.bot.get_chat(ch)
+            await chat.get_member(message.from_user.id)
+        except Exception:
+            link = f"https://t.me/{chat.username}" if chat.username else chat.invite_link
+            join_btns.append((chat.title, link))
+
+    if join_btns:
+        text = "You haven't joined required channels!"
+        buttons = []
+        for name, link in join_btns:
+            buttons.append([{"text": f"Join {name}", "url": link}])
+        return text, buttons
+
+    return None, None
+
+
+# --- TG LINK FETCH ---
+async def get_tg_link_message(link):
+    private = False
+
+    if link.startswith(("https://t.me/", "https://telegram.me/")):
+        msg = re_match(
+            r"https:\/\/(?:t\.me|telegram\.me)\/(?:c\/)?([^\/]+)\/([0-9]+)", link
+        )
+    else:
+        private = True
+        msg = re_match(
+            r"tg:\/\/openmessage\?user_id=([0-9]+)&message_id=([0-9]+)", link
+        )
+        if not TgClient.user:
+            raise TgLinkException("User session required!")
+
+    chat = msg.group(1)
+    msg_id = int(msg.group(2))
+
+    if chat.isdigit():
+        chat = int(chat) if private else int(f"-100{chat}")
+
+    if not private:
+        try:
+            message = await TgClient.bot.get_messages(chat, msg_id)
+            if not message.empty:
+                return message, "bot"
+        except:
+            private = True
+
+    if private and TgClient.user:
+        msg = await TgClient.user.get_messages(chat, msg_id)
+        if not msg.empty:
+            return msg, "user"
+
+    raise TgLinkException("Cannot access message!")
 
 
 async def delete_links(message):
