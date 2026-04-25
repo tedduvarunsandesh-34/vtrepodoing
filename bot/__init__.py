@@ -813,7 +813,7 @@ if not ospath.exists('accounts'):
     config_dict['USE_SERVICE_ACCOUNTS'] = False
 sleep(0.5)
 
-aria2 = ariaAPI(ariaClient(host="http://localhost", port=6800, secret=""))
+#aria2 = ariaAPI(ariaClient(host="http://localhost", port=6800, secret=""))
 
 
 def get_client():
@@ -854,7 +854,7 @@ aria2c_global = ['bt-max-open-files', 'download-result', 'keep-unfinished-downlo
                  'max-overall-upload-limit', 'optimize-concurrent-downloads', 'save-cookies', 'server-stat-of']
 
 if not aria2_options:
-    aria2_options = aria2.client.get_global_option()
+    #aria2_options = aria2.client.get_global_option()
 else:
     a2c_glo = {op: aria2_options[op]
                for op in aria2c_global if op in aria2_options}
