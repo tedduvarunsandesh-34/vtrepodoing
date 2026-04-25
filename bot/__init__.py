@@ -845,20 +845,38 @@ def aria2c_init():
     except Exception as e:
         log_error(f"Aria2c initializing error: {e}")
 
+import subprocess
 
+subprocess.Popen([
+    "aria2c",
+    "--enable-rpc",
+    "--rpc-listen-all=true",
+    "--rpc-allow-origin-all",
+    "--rpc-listen-port=6800",
+    "--daemon=true"
+])
 Thread(target=aria2c_init).start()
 sleep(1.5)
 
 aria2c_global = ['bt-max-open-files', 'download-result', 'keep-unfinished-download-result', 'log', 'log-level',
                  'max-concurrent-downloads', 'max-download-result', 'max-overall-download-limit', 'save-session',
                  'max-overall-upload-limit', 'optimize-concurrent-downloads', 'save-cookies', 'server-stat-of']
+from aria2p import API, Client
 
+aria2 = API(
+    Client(
+        host="http://localhost",
+        port=6800,
+        secret=""
+    )
+)
 if not aria2_options:
     pass
 else:
     pass
 
-qb_client = get_client()
+qb_client = None
+qbit_options = {}
 if not qbit_options:
     qbit_options = dict(qb_client.app_preferences())
     del qbit_options['listen_port']
