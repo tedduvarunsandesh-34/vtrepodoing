@@ -104,6 +104,7 @@ aria2_options = {}
 qbit_options = {}
 
 var_list = {}
+excluded_extensions = []
 
 BOT_TOKEN = environ.get('BOT_TOKEN', '')
 if len(BOT_TOKEN) == 0:
