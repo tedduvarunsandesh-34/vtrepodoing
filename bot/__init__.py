@@ -88,6 +88,10 @@ VID_MODE = {
     'hard_sub': 'HardSub',
     }
 
+auth_chats = set()
+sudo_users = set()
+
+__all__ = ["auth_chats", "sudo_users"]
 
 BOT_TOKEN = environ.get('BOT_TOKEN', '')
 if len(BOT_TOKEN) == 0:
