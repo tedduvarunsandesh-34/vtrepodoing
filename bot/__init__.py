@@ -97,6 +97,9 @@ drives_ids = []
 drives_names = []
 index_urls = []
 
+shortener_dict = {}
+shorteners_list = []
+
 BOT_TOKEN = environ.get('BOT_TOKEN', '')
 if len(BOT_TOKEN) == 0:
     log_error("BOT_TOKEN variable is missing! Exiting now")
