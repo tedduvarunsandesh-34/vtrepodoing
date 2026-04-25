@@ -36,7 +36,20 @@ class MirrorStatus:
     STATUS_FFMPEG = "FFmpeg"
     STATUS_YT = "YouTube"
     STATUS_METADATA = "Metadata"
-
+    STATUS_HARDSUB = 'HardSub'
+    STATUS_ADVANCE_CONVERT = 'Advance Convert'
+    STATUS_AI_SUBTITLE = 'AI Subtitle'
+    STATUS_STREAM_SWAP = 'Stream Swap'
+    STATUS_STREAM_REMOVE = 'Stream Remove'
+    STATUS_ENCODE = 'Encode'
+    STATUS_EXTRACT = 'Extract'
+    STATUS_TRIM = 'Trim'
+    STATUS_SUB_SYNC = 'Sub Sync'
+    STATUS_WATERMARK = 'Watermark'
+    STATUS_VID_VID = 'Video + Video'
+    STATUS_VID_AUD = 'Video + Audio'
+    STATUS_VID_SUB = 'Video + Subtitle'
+    STATUS_WAIT = 'Wait'
 
 class EngineStatus:
     def __init__(self):
