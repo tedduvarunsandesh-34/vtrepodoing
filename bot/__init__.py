@@ -105,7 +105,7 @@ qbit_options = {}
 
 var_list = {}
 excluded_extensions = []
-
+nzb_options = {}
 BOT_TOKEN = environ.get('BOT_TOKEN', '')
 if len(BOT_TOKEN) == 0:
     log_error("BOT_TOKEN variable is missing! Exiting now")
