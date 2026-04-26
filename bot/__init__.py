@@ -19,6 +19,7 @@ from faulthandler import enable as faulthandler_enable
 from socket import setdefaulttimeout
 from logging import getLogger, Formatter, FileHandler, StreamHandler, INFO, ERROR, basicConfig, error as log_error, info as log_info, warning as log_warning
 from uvloop import install
+from bot.clients.sabnzbd import sabnzbd_client
 
 faulthandler_enable()
 install()
